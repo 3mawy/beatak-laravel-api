@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\notfiltered;
 
 use App\Http\Controllers\Controller;
-use App\Models\Review;
+use App\Models\Offer;
 use Illuminate\Http\Request;
 
-class ReviewController extends Controller
+class OfferController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -42,10 +42,10 @@ class ReviewController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Review  $review
+     * @param  \App\Models\Offer  $offer
      * @return \Illuminate\Http\Response
      */
-    public function show(Review $review)
+    public function show(Offer $offer)
     {
         //
     }
@@ -53,10 +53,10 @@ class ReviewController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Review  $review
+     * @param  \App\Models\Offer  $offer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Review $review)
+    public function edit(Offer $offer)
     {
         //
     }
@@ -65,10 +65,10 @@ class ReviewController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Review  $review
+     * @param  \App\Models\Offer  $offer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Review $review)
+    public function update(Request $request, Offer $offer)
     {
         //
     }
@@ -76,10 +76,10 @@ class ReviewController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Review  $review
+     * @param  \App\Models\Offer  $offer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Review $review)
+    public function destroy(Offer $offer)
     {
         //
     }

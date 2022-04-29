@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\notfiltered;
 
 use App\Http\Controllers\Controller;
-use App\Models\Status;
+use App\Models\CartItem;
 use Illuminate\Http\Request;
 
-class StatusController extends Controller
+class CartItemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -42,10 +42,10 @@ class StatusController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Status  $status
+     * @param  \App\Models\CartItem  $cartItem
      * @return \Illuminate\Http\Response
      */
-    public function show(Status $status)
+    public function show(CartItem $cartItem)
     {
         //
     }
@@ -53,10 +53,10 @@ class StatusController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Status  $status
+     * @param  \App\Models\CartItem  $cartItem
      * @return \Illuminate\Http\Response
      */
-    public function edit(Status $status)
+    public function edit(CartItem $cartItem)
     {
         //
     }
@@ -65,10 +65,10 @@ class StatusController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Status  $status
+     * @param  \App\Models\CartItem  $cartItem
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Status $status)
+    public function update(Request $request, CartItem $cartItem)
     {
         //
     }
@@ -76,10 +76,10 @@ class StatusController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Status  $status
+     * @param  \App\Models\CartItem  $cartItem
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Status $status)
+    public function destroy(CartItem $cartItem)
     {
         //
     }

@@ -3,82 +3,129 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CartItemResource;
+use App\Http\Resources\CartResource;
+use App\Http\Resources\UserResource;
 use App\Models\Cart;
+use App\Models\CartItem;
+use App\Models\Track;
+use GuzzleHttp\Exception\ClientException;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function getCartData()
     {
-        //
+        $user = JWTAuth::user();
+        if ($user === null) {
+            return response(['error' => 'please sign in, your token has expired'], 301);
+        }
+        return response([new CartResource($user->cart)], 200);
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function addToCart(Request $request, Track $track)
+    {
+        $user = JWTAuth::user();
+        if ($user === null) {
+            return response(['error' => 'please sign in, your token has expired'], 301);
+        }
+        $cart = $user->cart;
+        $cartItem = new CartItem;
+        // TODO:refactor cycle
+        $license = $request->input('license_id', '1');
+        $cartItem->item_price = $track->getPrice($license);
+        $cartItem->track_id = $track->id;
+        $cartItem->license_id = $license;
+        $cart->cartItems()->save($cartItem);
+        return response([new CartResource($cart)], 200);
+
+    }
+
+    public function updateCartData(Request $request, CartItem $cartItem)
+    {
+        if ($cartItem->license_id === $request->license_id) {
+            return response()->json(['error' => 'nothing to update', 'status' => 422], 422);
+        }
+        try {
+            $cartItem->license_id = $request->license_id;
+            $cartItem->save();
+        } catch (QueryException $exception) {
+            return response()->json(['error' => 'cannot use a non existing license', 'status' => 422], 422);
+        }
+        return response([$cartItem], 200);
+    }
+
+    public function clearCart()
+    {
+        $user = JWTAuth::user();
+        if ($user === null) {
+            return response(['error' => 'please sign in, your token is no longer valid'], 301);
+        }
+        try {
+            $cart = $user->cart;
+            $cart->cartItems = [];
+            $cart->total_price = 0;
+            $cart->save();
+        }
+        catch (QueryException $exception){
+            return response()->json(['error' => 'your cart is already empty', 'status' => 422], 422);
+
+        }
+        return response([new CartResource($cart)], 200);
+
+    }
+
+    public function removeFromCart(CartItem $cartItem)
+    {
+        $user = JWTAuth::user();
+        if ($user === null) {
+            return response(['error' => 'please sign in, your token is no longer valid'], 301);
+        }
+        try {
+            $cartItem->delete();
+            $user->save();
+        }
+        catch (QueryException $exception){
+            return response()->json(['error' => 'this item is not in your cart', 'status' => 422], 422);
+        }
+
+        return response([new CartResource($user->cart)], 200);
+
+    }
+
+    public function index()
+    {
+    }
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
     public function show(Cart $cart)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Cart $cart)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Cart $cart)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Cart $cart)
     {
         //

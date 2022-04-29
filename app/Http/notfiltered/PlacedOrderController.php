@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\notfiltered;
 
-use App\Http\Controllers\Controller;
 use App\Models\PlacedOrder;
-use Illuminate\Http\Request;
 use TCG\Voyager\Http\Controllers\VoyagerBreadController;
 
 class PlacedOrderController extends VoyagerBreadController
