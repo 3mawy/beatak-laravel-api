@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\ProductResource;
-class ProductController extends Controller
+use App\Http\Resources\GenreResource;
+class GenreController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return response(['products' => ProductResource::collection($products), 'message' => 'Retrieved successfully'], 200);
+        $genres = Genre::all();
+        return response(['genres' => GenreResource::collection($genres), 'message' => 'Retrieved successfully'], 200);
     }
 
     /**
@@ -41,45 +41,45 @@ class ProductController extends Controller
             return response(['error' => $validator->errors(), 'Validation Error']);
         }
 
-        $product = Product::create($data);
+        $genre = Genre::create($data);
 
-        return response(['product' => new ProductResource($product), 'message' => 'Created successfully'], 201);
+        return response(['genre' => new GenreResource($genre), 'message' => 'Created successfully'], 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Product $product
+     * @param Genre $genre
      * @return Response
      */
-    public function show(Product $product)
+    public function show(Genre $genre)
     {
-        return response(['product' => new ProductResource($product), 'message' => 'Retrieved successfully'], 200);
+        return response(['genre' => new GenreResource($genre), 'message' => 'Retrieved successfully'], 200);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param Product $product
+     * @param Genre $genre
      * @return Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, Genre $genre)
     {
-        $product->update($request->all());
+        $genre->update($request->all());
 
-        return response(['product' => new ProductResource($product), 'message' => 'Update successfully'], 200);
+        return response(['genre' => new GenreResource($genre), 'message' => 'Update successfully'], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Product $product
+     * @param Genre $genre
      * @return Response
      */
-    public function destroy(Product $product)
+    public function destroy(Genre $genre)
     {
-        $product->delete();
+        $genre->delete();
 
         return response(['message' => 'Deleted']);
     }

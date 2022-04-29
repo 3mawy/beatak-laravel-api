@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Size;
+use App\Models\License;
 use Illuminate\Http\Request;
 
 class SizeController extends Controller
@@ -42,10 +42,10 @@ class SizeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Size  $size
+     * @param  \App\Models\License  $size
      * @return \Illuminate\Http\Response
      */
-    public function show(Size $size)
+    public function show(License $size)
     {
         //
     }
@@ -53,10 +53,10 @@ class SizeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Size  $size
+     * @param  \App\Models\License  $size
      * @return \Illuminate\Http\Response
      */
-    public function edit(Size $size)
+    public function edit(License $size)
     {
         //
     }
@@ -65,10 +65,10 @@ class SizeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Size  $size
+     * @param  \App\Models\License  $size
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Size $size)
+    public function update(Request $request, License $size)
     {
         //
     }
@@ -76,10 +76,10 @@ class SizeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Size  $size
+     * @param  \App\Models\License  $size
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Size $size)
+    public function destroy(License $size)
     {
         //
     }

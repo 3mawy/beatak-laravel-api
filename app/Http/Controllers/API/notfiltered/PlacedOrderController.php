@@ -9,11 +9,11 @@ use TCG\Voyager\Http\Controllers\VoyagerBreadController;
 
 class PlacedOrderController extends VoyagerBreadController
 {
-    public function getProductsAttribute(PlacedOrder $placedOrder)
+    public function getTracksAttribute(PlacedOrder $placedOrder)
     {
         return $placedOrder->orderItems()->whereNotNull('product_id')->get()->map(function ($oi) {
             return $oi->product->name . ' : ' . $oi->size->size;
         });
-//        return $this->hasManyThrough(Product::class, OrderItem::class);
+//        return $this->hasManyThrough(Track::class, OrderItem::class);
     }
 }
