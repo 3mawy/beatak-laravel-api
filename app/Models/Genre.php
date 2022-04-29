@@ -17,8 +17,9 @@ class Genre extends Model
         'name' => 'string',
         'description' => 'string',
     ];
-    public function products()
+
+    public function tracks(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsToMany(Track::class);
     }
 }

@@ -5,19 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Size extends Model
+class License extends Model
 {
     // TODO
     use HasFactory;
 
     protected $fillable = [
-        'size',
+        'license',
     ];
 
-    public function products()
+    public function tracks()
     {
-        return $this->belongsToMany(Product::class)
-            ->using(ProductSize::class)
+        return $this->belongsToMany(Track::class)
+            ->using(TrackLicense::class)
             ->withPivot('price');;
     }
 }

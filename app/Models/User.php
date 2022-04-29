@@ -22,8 +22,8 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'mobile_number',
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -32,6 +32,9 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password',
         'remember_token',
+        'email_verified_at',
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -42,6 +45,11 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function cart()
+    {
+        // TODO ::
+        return $this->hasOne(Cart::class)->withDefault(['total_price' => 0]);
+    }
     public function providers()
     {
         return $this->hasMany(Provider::class,

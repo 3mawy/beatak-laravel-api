@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Track extends Model
 {
 
     use HasFactory;
@@ -22,15 +22,16 @@ class Product extends Model
         'updated_at',
     ];
 
-    public function category()
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function offers()
+    public function genre(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsToMany(Offer::class);
+        return $this->belongsTo(Genre::class);
     }
+
 
 
 //    public function orderItems()
@@ -38,15 +39,19 @@ class Product extends Model
 //        return $this->hasMany(OrderItem::class);
 //    }
 
-    public function licences()
+    public function licenses(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(License::class)
-            ->using(ProductSize::class)
+            ->using(TrackLicense::class)
             ->withPivot('price');
     }
-
-    public function getPrice($size)
+    public function genres()
     {
-        return $this->sizes->where('id', $size)->first()->pivot->price;
+        return $this->belongsToMany(Genre::class);
+    }
+
+    public function getPrice($license)
+    {
+        return $this->licenses->where('id', $license)->first()->pivot->price;
     }
 }
