@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CartResource;
+use App\Http\Resources\UserResource;
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -15,7 +19,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+        return response(['users' => UserResource::collection($users), 'message' => 'Retrieved successfully'], 200);
+
     }
 
     /**
@@ -32,11 +38,33 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'name' => 'required|max:255',
+            'email' => 'required|max:255|unique:users',
+        ]);
+
+        if ($validator->fails()) {
+            return response(['error' => $validator->errors(), 'Validation Error']);
+        }
+
+            $user = User::create($data);
+            $user->save();
+            $cart = new Cart();
+            $user->cart()->save($cart);
+
+
+        return response()->json([
+            'status' => 'success',
+            'user' => $user,
+            'cart' => $cart,
+        ], 201)->header('Content-Type', 'application/json');;
+
     }
 
     /**
@@ -61,24 +89,12 @@ class UserController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, User $user)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(User $user)
     {
         //
