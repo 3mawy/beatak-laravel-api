@@ -18,8 +18,9 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'email' => $this->email,
-            'name' => $this->name
+            'name' => $this->name,
+            'email' => $this->cart->id,
+            'cart' => new CartResource($this->cart)
         ];
     }
 }
