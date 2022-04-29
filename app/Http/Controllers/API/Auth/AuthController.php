@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Resources\UserResource;
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,10 +41,14 @@ class AuthController extends Controller
         $user->fill($request->all());
         $user->password = bcrypt($request->password);
         $user->save();
+        $cart = new Cart();
+        $user->cart()->save($cart);
+
 
         return response()->json([
             'status' => 'success',
-            'data' => $user
+            'user' => $user,
+            'cart' => $cart,
         ], 200)->header('Content-Type', 'application/json');;
     }
 
