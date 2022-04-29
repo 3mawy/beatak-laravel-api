@@ -6,7 +6,7 @@
     Hosted LIVE at https://beatak.meemgallery.games/
     Authentication: Socialite and JWT, auth login samples can be found in the api docs
 
-## data modeling:
+## Data modeling:
 
 The tables created: **Users, Tracks, Categories, and Licenses**
 
