@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\License;
+use App\Models\CartItem;
 use Illuminate\Database\Seeder;
 
-class LicenseSeeder extends Seeder
+class CartItemSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,6 @@ class LicenseSeeder extends Seeder
      */
     public function run()
     {
-        License::factory()->times(4)->create();
-
+        CartItem::factory(100)->create();
     }
 }

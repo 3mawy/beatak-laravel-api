@@ -40,6 +40,8 @@ class CartController extends Controller
         $cartItem->track_id = $track->id;
         $cartItem->license_id = $license;
         $cart->cartItems()->save($cartItem);
+        $cart->total_price = $cart->total_price + $cartItem->item_price;
+        $cart->save();
         return response([new CartResource($cart)], 200);
 
     }
@@ -51,6 +53,7 @@ class CartController extends Controller
         }
         try {
             $cartItem->license_id = $request->license_id;
+            $cartItem->item_price = $cartItem->track->getPrice($request->license_id);
             $cartItem->save();
         } catch (QueryException $exception) {
             return response()->json(['error' => 'cannot use a non existing license', 'status' => 422], 422);
@@ -66,8 +69,8 @@ class CartController extends Controller
         }
         try {
             $cart = $user->cart;
-            $cart->cartItems = [];
             $cart->total_price = 0;
+            $cart->cartItems()->delete();
             $cart->save();
         }
         catch (QueryException $exception){
@@ -85,7 +88,9 @@ class CartController extends Controller
             return response(['error' => 'please sign in, your token is no longer valid'], 301);
         }
         try {
+            $user->cart->total_price = $user->cart->total_price - $cartItem->item_price;
             $cartItem->delete();
+            $user->cart->save();
             $user->save();
         }
         catch (QueryException $exception){

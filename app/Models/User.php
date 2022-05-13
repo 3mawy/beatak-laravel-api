@@ -45,6 +45,11 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function artist()
+    {
+        // TODO ::
+        return $this->hasOne(Artist::class)->withDefault(['slug' => 0]);
+    }
     public function cart()
     {
         // TODO ::

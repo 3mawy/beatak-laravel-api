@@ -14,16 +14,19 @@ class CartItem extends Model
         'cart_id',
         'item_price',
         'license_id',
-        'product_id',
+        'track_id',
     ];
 
     protected $casts = [
         'item_price' => 'float',
     ];
 
-    public function cart()
+    public function cart(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Cart::class);
     }
-
+    public function track(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Track::class);
+    }
 }

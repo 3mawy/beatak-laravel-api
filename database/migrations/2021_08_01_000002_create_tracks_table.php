@@ -19,21 +19,18 @@ class CreateTracksTable extends Migration
             $table->string('name', 150);
             $table->integer('duration')->nullable();
             $table->string('url', 150)->nullable();
-            $table->string('description', 300)->nullable();
+            $table->string('description', 300);
             $table->boolean('active')->nullable();
             $table->integer('discount')->nullable();
-            $table->foreignId('user_id')
-                ->nullable()
+            $table->foreignId('artist_id')
                 ->unsigned()
                 ->constrained()
                 ->onDelete('cascade');
             $table->foreignId('genre_id')
-                ->nullable()
                 ->unsigned()
                 ->constrained()
                 ->onDelete('cascade');
             $table->foreignId('type_id')
-                ->nullable()
                 ->unsigned()
                 ->constrained()
                 ->onDelete('cascade');

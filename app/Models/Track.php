@@ -22,9 +22,9 @@ class Track extends Model
         'updated_at',
     ];
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function artist(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Artist::class);
     }
 
     public function genre(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -32,6 +32,10 @@ class Track extends Model
         return $this->belongsTo(Genre::class);
     }
 
+    public function cartItems(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(CartItem::class);
+    }
 
 
 //    public function orderItems()

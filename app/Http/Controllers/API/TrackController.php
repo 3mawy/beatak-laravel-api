@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\TrackResource;
+use Tymon\JWTAuth\Facades\JWTAuth;
+
 class TrackController extends Controller
 {
     /**
@@ -31,12 +33,19 @@ class TrackController extends Controller
     //TODO:: store data accordingly
     public function store(Request $request)
     {
+        $user = JWTAuth::user();
+        if ($user === null) {
+            return response(['error' => 'please sign in'], 301);
+        }
         $data = $request->all();
-
 
         $validator = Validator::make($data, [
             'name' => 'required|max:255',
             'description' => 'required|max:255',
+            'artist_id' => 'required',
+            'genre_id' => 'required',
+            'type_id' => 'required',
+            'licenses' => 'required',
         ]);
 
         if ($validator->fails()) {

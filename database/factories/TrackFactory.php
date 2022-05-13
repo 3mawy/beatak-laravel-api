@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Artist;
+use App\Models\Type;
 use App\Models\User;
 use App\Models\Genre;
 use App\Models\Track;
@@ -25,9 +27,10 @@ class TrackFactory extends Factory
     {
 
         return [
-            'user_id' => User::all()->random()->id,
+            'artist_id' => Artist::all()->random()->id,
             'name' => $this->faker->name(),
             'genre_id' => Genre::all()->random()->id,
+            'type_id' => Type::all()->random()->id,
             'description' => $this->faker->realText(30),
             'active' => $this->faker->boolean(80),
             'discount' => $this->faker->numberBetween(20, 40),

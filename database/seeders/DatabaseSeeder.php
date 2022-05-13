@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CartItem;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -17,8 +18,10 @@ class DatabaseSeeder extends Seeder
 
 //        $this->call(DataRowsTableSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(ArtistSeeder::class);
         $this->call(GenreSeeder::class);
         $this->call(LicenseSeeder::class);
+        $this->call(TypeSeeder::class);
         $this->call(TrackSeeder::class);
 //        $this->call(TrackSeeder::class);
 
