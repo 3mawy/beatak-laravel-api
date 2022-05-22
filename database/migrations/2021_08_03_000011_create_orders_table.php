@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGenreTrackTable extends Migration
+class CreateOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class CreateGenreTrackTable extends Migration
      */
     public function up()
     {
-        Schema::create('genre_track', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('track_id')
+            $table->foreignId('user_id')
                 ->unsigned()
                 ->constrained();
-            $table->foreignId('genre_id')
+            $table->foreignId('status_id')
                 ->unsigned()
-                ->constrained()
-                ->onDelete('cascade');
-
+                ->constrained();
             $table->timestamps();
         });
     }
@@ -34,6 +32,6 @@ class CreateGenreTrackTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('genre_track');
+        Schema::dropIfExists('orders');
     }
 }
