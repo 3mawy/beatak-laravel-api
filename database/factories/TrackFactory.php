@@ -27,9 +27,8 @@ class TrackFactory extends Factory
     {
 
         return [
-            'artist_id' => Artist::all()->random()->id,
+            'user_id' => User::all()->random()->id,
             'name' => $this->faker->name(),
-            'genre_id' => Genre::all()->random()->id,
             'type_id' => Type::all()->random()->id,
             'description' => $this->faker->realText(30),
             'active' => $this->faker->boolean(80),
