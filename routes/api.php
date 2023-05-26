@@ -56,7 +56,6 @@ Route::fallback(function () {
         'error' => 'Page Not Found.'], 404);
 });
 
-
 //Route::group(['prefix' => 'tracks'], function () {
 //    Route::get('', [TrackController::class, 'index']);
 //    Route::post('', [TrackController::class, 'store']);
