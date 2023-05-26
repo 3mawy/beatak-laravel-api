@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TrackResource extends JsonResource
+class OrderResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,10 +14,6 @@ class TrackResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'track' => parent::toArray($request),
-            'genres' => GenreResource::collection($this->genres),
-            'licenses' => LicenseResource::collection($this->licenses),
-        ];
+        return parent::toArray($request);
     }
 }

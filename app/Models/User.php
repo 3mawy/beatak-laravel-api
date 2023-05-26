@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -45,6 +46,16 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function tracks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Track::class);
+    }
+
+    public function orders(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function artist()
     {
         // TODO ::
@@ -60,6 +71,22 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Provider::class,
             'user_id', 'id');
     }
+
+    public function followings()
+    {
+        return $this->belongsToMany(User::class, 'follower_user', 'follower_id', 'user_id');
+    }
+
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'follower_user', 'user_id', 'follower_id');
+    }
+
+//    public function getCurrentUser()
+//    {
+//        $user = JWTAuth::user();
+//        return ($user === null) ? null : $user;
+//    }
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

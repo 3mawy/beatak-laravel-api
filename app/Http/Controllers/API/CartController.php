@@ -5,13 +5,12 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CartItemResource;
 use App\Http\Resources\CartResource;
-use App\Http\Resources\UserResource;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Track;
-use GuzzleHttp\Exception\ClientException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class CartController extends Controller
@@ -20,25 +19,40 @@ class CartController extends Controller
     {
         $user = JWTAuth::user();
         if ($user === null) {
-            return response(['error' => 'please sign in, your token has expired'], 301);
+            return response(['error' => 'please sign in, your token has expired'], 401);
         }
         return response([new CartResource($user->cart)], 200);
 
     }
 
-    public function addToCart(Request $request, Track $track)
+    public function addToCart(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'track_id' => 'required',
+            'license_id' => 'required',
+
+        ]);
+
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 200);
+        }
+
         $user = JWTAuth::user();
         if ($user === null) {
-            return response(['error' => 'please sign in, your token has expired'], 301);
+            return response(['error' => 'please sign in, your token has expired'], 401);
         }
         $cart = $user->cart;
         $cartItem = new CartItem;
         // TODO:refactor cycle
+        $track = Track::findorFail($request->track_id);
+
         $license = $request->input('license_id', '1');
+        $cartItem->track_id = $request->track_id;
+        $cartItem->license_id = $request->license_id;
         $cartItem->item_price = $track->getPrice($license);
-        $cartItem->track_id = $track->id;
-        $cartItem->license_id = $license;
         $cart->cartItems()->save($cartItem);
         $cart->total_price = $cart->total_price + $cartItem->item_price;
         $cart->save();
@@ -46,7 +60,7 @@ class CartController extends Controller
 
     }
 
-    public function updateCartData(Request $request, CartItem $cartItem)
+    public function updateCartItem(Request $request, CartItem $cartItem)
     {
         if ($cartItem->license_id === $request->license_id) {
             return response()->json(['error' => 'nothing to update', 'status' => 422], 422);
@@ -65,7 +79,7 @@ class CartController extends Controller
     {
         $user = JWTAuth::user();
         if ($user === null) {
-            return response(['error' => 'please sign in, your token is no longer valid'], 301);
+            return response(['error' => 'please sign in, your token has expired'], 401);
         }
         try {
             $cart = $user->cart;
@@ -85,7 +99,7 @@ class CartController extends Controller
     {
         $user = JWTAuth::user();
         if ($user === null) {
-            return response(['error' => 'please sign in, your token is no longer valid'], 301);
+            return response(['error' => 'please sign in, your token has expired'], 401);
         }
         try {
             $user->cart->total_price = $user->cart->total_price - $cartItem->item_price;

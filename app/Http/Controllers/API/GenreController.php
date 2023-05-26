@@ -34,7 +34,6 @@ class GenreController extends Controller
         $validator = Validator::make($data, [
             'name' => 'required|max:255',
             'description' => 'required|max:255',
-            'price' => 'required'
         ]);
 
         if ($validator->fails()) {

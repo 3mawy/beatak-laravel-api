@@ -22,11 +22,7 @@ class CreateTracksTable extends Migration
             $table->string('description', 300);
             $table->boolean('active')->nullable();
             $table->integer('discount')->nullable();
-            $table->foreignId('artist_id')
-                ->unsigned()
-                ->constrained()
-                ->onDelete('cascade');
-            $table->foreignId('genre_id')
+            $table->foreignId('user_id')
                 ->unsigned()
                 ->constrained()
                 ->onDelete('cascade');
@@ -34,6 +30,10 @@ class CreateTracksTable extends Migration
                 ->unsigned()
                 ->constrained()
                 ->onDelete('cascade');
+//            $table->foreignId('genre_id')
+//                ->unsigned()
+//                ->constrained()
+//                ->onDelete('cascade');
 //            $table->foreignId('vocal_presence_id')
 //                ->unsigned()
 //                ->constrained()

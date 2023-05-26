@@ -22,14 +22,9 @@ class Track extends Model
         'updated_at',
     ];
 
-    public function artist(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Artist::class);
-    }
-
-    public function genre(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(Genre::class);
+        return $this->belongsTo(User::class);
     }
 
     public function cartItems(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -37,25 +32,34 @@ class Track extends Model
         return $this->hasMany(CartItem::class);
     }
 
-
-//    public function orderItems()
-//    {
-//        return $this->hasMany(OrderItem::class);
-//    }
-
     public function licenses(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(License::class)
             ->using(TrackLicense::class)
             ->withPivot('price');
     }
-    public function genres()
+
+    public function genres(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Genre::class);
     }
-
     public function getPrice($license)
     {
-        return $this->licenses->where('id', $license)->first()->pivot->price;
+        return $this->licenses->find($license)->pivot->price;
     }
+
+    public function setPrice($license, $price)
+    {
+        $this->licenses->find($license)->pivot->price = $price;
+    }
+//    public function genre(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+//    {
+//        return $this->belongsTo(Genre::class);
+//    }
+
+
+//    public function orderItems()
+//    {
+//        return $this->hasMany(OrderItem::class);
+//    }
 }
